@@ -72,7 +72,7 @@ function init() {
 
     // Load model
     const loader = new GLTFLoader();
-    loader.load(new URL('./gltf/scooter.glb', import.meta.url).href, gltf => {
+    loader.load(new URL('gltf/scooter.glb', import.meta.url).href, gltf => {
         scene.add(gltf.scene);
         // TODO: add your mixers/skeleton setup here
         activeCamera = camera;
