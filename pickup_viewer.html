@@ -135,7 +135,7 @@ scene.add(bounceLight);
     document.body.appendChild(stats.dom);
 
     const loader = new GLTFLoader();
-    const modelURL = new URL('./gltf/pickup.glb', import.meta.url).href;
+    const modelURL = 'https://github.com/Amaro0o0o/retro_portfolio/releases/download/V1/pickup.glb';
     console.log("Loading model from:", modelURL);
 
     loader.load(
@@ -220,3 +220,4 @@ function animate() {
 </script>
 </body>
 </html>
+
