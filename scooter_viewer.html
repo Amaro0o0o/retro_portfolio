@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Three.js Clock Animation (Mobile Optimized)</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/"
+    }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+import Stats from 'three/addons/libs/stats.module.js';
+
+let scene, camera, renderer, clock, stats, controls;
+let activeCamera;
+let mixers = {};
+let panel;
+
+init();
+animate();
+
+function init() {
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xa0a0a0);
+
+    // Camera
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100);
+
+    // Renderer
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Controls
+    controls = new OrbitControls(camera, renderer.domElement);
+    applyMobileCameraSettings();
+    applyMobileControlSettings();
+
+    // Lights
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 3);
+    scene.add(hemiLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 3);
+    dirLight.position.set(3, 10, 10);
+    scene.add(dirLight);
+
+    clock = new THREE.Clock();
+    stats = new Stats();
+    document.body.appendChild(stats.dom);
+
+    // Load model
+    const loader = new GLTFLoader();
+    loader.load(new URL('./gltf/scooter.glb', import.meta.url).href, gltf => {
+        scene.add(gltf.scene);
+        // TODO: add your mixers/skeleton setup here
+        activeCamera = camera;
+        createPanel();
+    });
+
+    window.addEventListener('resize', onWindowResize);
+}
+
+// MOBILE CAMERA SETTINGS
+function applyMobileCameraSettings() {
+    if (window.innerWidth < 768) {
+        camera.fov = 55;
+        camera.position.set(-1.5, 2.5, 8);
+    } else {
+        camera.fov = 45;
+        camera.position.set(0, 2, 6);
+    }
+    camera.updateProjectionMatrix();
+    controls.target.set(0, 1, 0);
+    controls.update();
+}
+
+// MOBILE CONTROLS SETTINGS
+function applyMobileControlSettings() {
+    controls.enableZoom = true;
+    controls.enablePan = false;
+    controls.minDistance = 2;
+    controls.maxDistance = 6;
+    controls.rotateSpeed = 0.8;
+    controls.zoomSpeed = 0.6;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.target.set(0, 1, 0);
+    controls.update();
+}
+
+// GUI PANEL
+function createPanel() {
+    panel = new GUI({ width: 280 });
+    if (window.innerWidth < 768) {
+        panel.domElement.style.transform = "scale(0.8)";
+        panel.domElement.style.transformOrigin = "top right";
+        panel.domElement.style.position = "absolute";
+        panel.domElement.style.top = "0";
+        panel.domElement.style.right = "0";
+        panel.close();
+    }
+}
+    
+// RESIZE
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    applyMobileCameraSettings();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+// ANIMATION LOOP
+function animate() {
+    requestAnimationFrame(animate);
+    const delta = clock.getDelta();
+    Object.values(mixers).forEach(m => m.update(delta));
+    stats.update();
+    controls.update();
+    renderer.render(scene, activeCamera || camera);
+}
+</script>
+</body>
+</html>

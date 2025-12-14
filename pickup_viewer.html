@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Three.js Clock Animation (Mobile Optimized)</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/"
+    }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+import Stats from 'three/addons/libs/stats.module.js';
+
+let scene, camera, renderer, clock, stats, controls;
+let activeCamera;
+let mixers = {};
+let panel;
+
+init();
+animate();
+
+function init() {
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xd0d0d0);
+
+    // 📌 Camera
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100);
+
+    // 📌 Renderer
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    document.body.appendChild(renderer.domElement);
+
+    // 📌 Controls
+    controls = new OrbitControls(camera, renderer.domElement);
+    applyMobileCameraSettings();
+    applyMobileControlSettings();
+
+    // 💡 Studio Lighting Upgrade
+    // 💡 Enhanced Studio Showroom Lighting
+
+// Soft ambient (overall brightness)
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+// Key light (main)
+const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
+keyLight.position.set(8, 10, 10);
+keyLight.castShadow = true;
+scene.add(keyLight);
+
+// Fill light (soften shadows)
+const fillLight = new THREE.DirectionalLight(0xffffff, 1.8);
+fillLight.position.set(-8, 6, 6);
+scene.add(fillLight);
+
+// Rim light (highlight edges)
+const rimLight = new THREE.DirectionalLight(0xffffff, 2.0);
+rimLight.position.set(0, 12, -10);
+rimLight.castShadow = false;
+scene.add(rimLight);
+
+
+// ➕ Side panel enhancement lights
+const sideLightLeft = new THREE.DirectionalLight(0xffffff, 2.2);
+sideLightLeft.position.set(-10, 4, 0); // left side
+sideLightLeft.castShadow = false;
+scene.add(sideLightLeft);
+
+const sideLightRight = new THREE.DirectionalLight(0xffffff, 2.2);
+sideLightRight.position.set(10, 4, 0); // right side
+sideLightRight.castShadow = false;
+scene.add(sideLightRight);
+
+
+// Spotlights — direct lighting on truck body
+const spot1 = new THREE.SpotLight(0xffffff, 3.0, 30, Math.PI * 0.25, 0.4, 1);
+spot1.position.set(0, 10, 6);
+spot1.castShadow = true;
+scene.add(spot1);
+
+const spot2 = new THREE.SpotLight(0xffffff, 2.5, 30, Math.PI * 0.25, 0.4, 1);
+spot2.position.set(6, 8, 2);
+spot2.castShadow = true;
+scene.add(spot2);
+
+const spot3 = new THREE.SpotLight(0xffffff, 2.5, 30, Math.PI * 0.25, 0.4, 1);
+spot3.position.set(-6, 8, 2);
+spot3.castShadow = true;
+scene.add(spot3);
+
+// Targets pointing at truck center
+spot1.target.position.set(0, 1, 0);
+spot2.target.position.set(0, 1, 0);
+spot3.target.position.set(0, 1, 0);
+scene.add(spot1.target, spot2.target, spot3.target);
+
+// Soft bounce from ground so underside isn’t black
+const bounceLight = new THREE.PointLight(0xffffff, 0.4);
+bounceLight.position.set(0, -1, 0);
+scene.add(bounceLight);
+
+    // Debug Helpers (Optional)
+    //const axes = new THREE.AxesHelper(5);
+    //scene.add(axes);
+
+    clock = new THREE.Clock();
+    stats = new Stats();
+    document.body.appendChild(stats.dom);
+
+    const loader = new GLTFLoader();
+    const modelURL = new URL('./gltf/pickup.glb', import.meta.url).href;
+    console.log("Loading model from:", modelURL);
+
+    loader.load(
+        modelURL,
+        gltf => {
+            console.log("Model Loaded:", gltf);
+
+            gltf.scene.traverse(obj => {
+                if (obj.isMesh) {
+                    obj.castShadow = true;
+                    obj.receiveShadow = true;
+                }
+            });
+
+            scene.add(gltf.scene);
+            activeCamera = camera;
+
+            createPanel();
+        },
+        undefined,
+        error => console.error("Error loading model:", error)
+    );
+
+    window.addEventListener('resize', onWindowResize);
+}
+
+// 📌 Mobile Camera Setup
+function applyMobileCameraSettings() {
+    if (window.innerWidth < 768) {
+        camera.fov = 55;
+        camera.position.set(-1.5, 2.5, 8);
+    } else {
+        camera.fov = 45;
+        camera.position.set(0, 2, 6);
+    }
+    camera.updateProjectionMatrix();
+    controls.target.set(0, 1, 0);
+    controls.update();
+}
+
+// 📌 Mobile Controls Setup
+function applyMobileControlSettings() {
+    controls.enableZoom = true;
+    controls.enablePan = false;
+    controls.minDistance = 2;
+    controls.maxDistance = 10;
+    controls.rotateSpeed = 0.8;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.update();
+}
+
+// GUI
+function createPanel() {
+    panel = new GUI({ width: 280 });
+    if (window.innerWidth < 768) {
+        panel.domElement.style.transform = "scale(0.8)";
+        panel.domElement.style.position = "absolute";
+        panel.domElement.style.top = "0";
+        panel.domElement.style.right = "0";
+        panel.close();
+    }
+}
+
+// Resize Handler
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    applyMobileCameraSettings();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+// Animation Loop
+function animate() {
+    requestAnimationFrame(animate);
+    const delta = clock.getDelta();
+    Object.values(mixers).forEach(m => m.update(delta));
+    stats.update();
+    controls.update();
+    renderer.render(scene, activeCamera || camera);
+}
+
+</script>
+</body>
+</html>

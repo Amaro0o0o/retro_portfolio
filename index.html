@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retro Modern Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">Retro Modern</div>
+    <p class="header-tagline">3D + XR Portfolio</p>
+  </header>
+  <main>
+<section id="intro">
+  <!-- TOP ROW: text (left) + photo (right) -->
+  <div class="about-section">
+    <!-- LEFT: About text -->
+    <div class="about-content">
+      <p class="section-tagline">Creative Technologist</p>
+      <h1 class="section-title">AMARNATH S </h1>
+      <p class="section-text">
+        Hi, I’m a tool maker, product designer, and 3D generalist. I enjoy creating useful tools,
+        clean product concepts, and detailed 3D worlds.
+        I work across the full 3D pipeline — modeling, texturing, rigging, animation, real-time workflows,
+        and 3D printing to bring ideas into both digital and physical form.
+        Right now, I’m also stepping into AR/VR/XR, exploring immersive tech and building experiences that
+        blend the real and digital worlds in a fun, practical way.
+      </p>
+    </div>
+    <!-- RIGHT: Photo card -->
+        <!-- RIGHT: Photo card -->
+    <div class="about-photo">
+      <div class="image-card" id="profileCard">
+        <div class="placeholder" id="uploadPlaceholder">
+          <div>
+            <div style="font-size:0.95rem; margin-bottom:8px;">Your photo goes here</div>
+            <div style="font-size:0.85rem; color:rgba(200,210,255,0.55); max-width:36ch; margin:0 auto;">
+              <!-- optional helper text -->
+            </div>
+          </div>
+        </div>
+
+        <img id="profileImage" src="images/profile.jpg" alt="Portrait of Amarnath S — 3D Artist and XR Developer">
+
+      </div>
+    </div>
+  </div> <!-- /.about-section -->
+  <!-- BOTTOM: full-width skills row, unchanged -->
+  <div class="skills-card">
+    <h3 class="skills-title">Skills &amp; Tools</h3>
+    <ul class="skills-list">
+      <li><strong>3D Modeling:</strong> Blender · CADD · Fusion360 </li>
+      <li><strong>Texturing:</strong> Substance 3D Painter </li>
+      <li><strong>Rigging &amp; Animation:</strong> Blender · Unreal Engine Control Rig</li>
+      <li><strong>Real-time Engines:</strong> Unreal Engine 5 · Unity (basic)</li>
+      <li><strong>XR Development:</strong> AR · VR </li>
+      <li><strong>Technical Skills:</strong> Proficient in conventional machines and CNC operation, with strong mechanical fitting and production floor planning experience. Skilled in quality control assistance, precise geometric drafting, and critical problem-solving. Additionally, experienced in Three.js web development for interactive 3D experiences.</li>
+      <li><strong>3D Printing:</strong> Experienced in managing printing workflows and machine upkeep, including mesh cleanup, slicing, and physical prototyping. Skilled in engineering-grade prototypes and product-oriented design for reliable fabrication results.</li>
+    </ul>
+  </div>
+
+</section>
+
+<section id="modeling" class="modeling-section">
+  <!-- Optional title row (you can edit text or remove this <header>) -->
+  <header class="modeling-header">
+    <p class="section-tagline">3D Modeling</p>
+    <h2 class="section-title">Modeling Showcase</h2>
+  </header>
+
+  <div class="modeling-carousel">
+    <!-- Left arrow -->
+    <button class="modeling-arrow arrow-prev" aria-label="Previous modeling project">
+      <svg class="arrow-svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 4 L7 12 L15 20"
+          fill="none"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round">
+        </path>
+      </svg>
+    </button>
+
+    <!-- Horizontal track -->
+    <div class="modeling-track" id="modelingTrack">
+      <!-- CARD: Modeling A -->
+      <article class="model-card" data-card="A">
+        <div class="panel-inner">
+          <!-- Top projector area (Three.js canvas goes here) -->
+          <div class="projector" id="projectorA">
+            <iframe
+              src="scooter_viewer.html"
+              class="projector-frame"
+              frameborder="0"
+              scrolling="no">
+            </iframe>
+          </div>
+          <!-- Bottom info area -->
+          <div class="panel-info" id="infoA">
+            <h3>Rusted Scooter — Overview</h3>
+            <p>Short description: A realistic old scooter with worn-out metal and rust details.</p>
+            <ul>
+              <li>Tools: Blender · Substance Painter</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD: Modeling B -->
+      <article class="model-card" data-card="B">
+        <div class="panel-inner">
+          <div class="projector" id="projectorB">
+            <iframe
+              src="./pickup_viewer.html"
+              class="projector-frame"
+              frameborder="0"
+              scrolling="no">
+            </iframe>
+          </div>
+          <!-- Bottom info area -->
+          <div class="panel-info" id="infoB">
+            <h3>Modeling B — Overview</h3>
+            <p class="small">Short description: leave this for backend or edit directly.</p>
+            <ul class="tools-list">
+              <li>Tools: Maya · Houdini · Substance</li>
+              <li>Notes: procedural kitbash, LODs for realtime</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Right arrow -->
+    <button class="modeling-arrow arrow-next" aria-label="Next modeling project">
+      <svg class="arrow-svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9 4 L17 12 L9 20"
+          fill="none"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round">
+        </path>
+      </svg>
+    </button>
+  </div>
+</section>
+
+  <section id="animation">
+    <div>
+      <p class="section-tagline">Animation & Rigging</p>
+      <h1 class="section-title">SURULI</h1>
+      <div class="gallery-card">
+      <h2>Interactive Dog Character </h2>
+      <p><strong>Cursor-Follow Dog</strong></p>
+      <p>
+      Retopologized, textured, rigged, and animated a Kanni dog in Blender using clean 
+      deformation and NLA-based motion clips. Now bringing the character into Three.js with GLTF export,
+      AnimationMixer control, and a custom cursor-follow interaction system. 
+      </p>
+      <h3>Work in progress</h3>
+      </div>
+    </div>
+  </section>
+
+   <section id="vr">
+  <div>
+    <p class="section-tagline">VR Project</p>
+    <h2 class="section-title">Mars Rover – VR Simulation</h2>
+
+    <p class="section-text">
+      Cleaned and retopologized the NASA Mars Rover asset, built a functional rig, and prepared it for Unreal Engine VR workflows. Implemented Blueprint systems for rover driving, camera feeds, and terrain interaction within a simulated Martian landscape.
+    </p>
+
+    <p class="section-footnote" style="font-weight:700; font-size:1.15rem;">
+      WORK IN PROGRESS
+    </p>
+  </div>
+</section>
+
+
+    <!-- =========================
+         PAGE 5 — AR
+    ========================== -->
+     <section id="ar">
+      <div>
+        <p class="section-tagline">AR Projects</p>
+        <h2 class="section-title">Augmented Stories in Everyday Spaces</h2>
+        <p class="section-text">
+          I craft AR activations that fuse physical spaces with neon narratives: reactive signage,
+          collectible holograms, and cinematic filters that invite playful exploration.
+        </p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-card">
+          <h3>City Glow Trail</h3>
+          <p>Location-based AR scavenger hunt with adaptive color palettes.</p>
+        </div>
+        <div class="gallery-card">
+          <h3>Analog Memories</h3>
+          <p>Interactive postcards reimagined with layered parallax illustrations.</p>
+        </div>
+        <div class="gallery-card">
+          <h3>Stage Companion</h3>
+          <p>Live performance overlays synced to choreography beats and lighting cues.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- (OPTIONAL EXTRA PAGE — CINEMATICS) -->
+    <section id="cinematics">
+      <div>
+        <p class="section-tagline">Cinematic Shots</p>
+        <h2 class="section-title">Cinematic Shots – Realtime Visual Direction</h2>
+
+        <p class="section-text">
+          I create cinematic sequences inside Unreal Engine, focusing on lighting, composition, and camera behavior
+          to achieve film-quality visuals. My workflow includes shot design, lens simulation, post-processing, and
+          mood-driven environment lighting — all rendered in realtime.
+        </p>
+
+        <p class="section-footnote" style="font-weight:600; color:#fff;">
+          Work in progress.
+        </p>
+      </div>
+    </section>
+
+  <section id="contact">
+    <div>
+      <p class="section-tagline">Contact</p>
+      <h2 class="section-title">Let’s Connect</h2>
+
+      <p class="section-text">
+        For collaborations, commissions, or technical projects, feel free to reach out.
+        I’m open to 3D/VR/AR work, cinematic sequences, and interactive tool development.
+      </p>
+    </div>
+    <div class="media-stack">
+      <div class="info-card">
+        <h3>Contact Details</h3>
+        <ul>
+          <li>Email · <a href="mailto:amarnath02081999@gmail.com">amarnath02081999@gmail.com</a></li>
+
+          <li>Instagram · 
+            <a href="https://www.instagram.com/amaathuo0o0o/" target="_blank">
+                @amaathuo0o0o
+            </a>
+          </li>
+
+          <li>LinkedIn · 
+              <a href="https://www.linkedin.com/in/amarnath-s-330099211/" target="_blank">
+                  linkedin.com/in/amarnath-s-330099211
+               </a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  <!-- Resume buttons — bottom right -->
+   <div class="resume-box">
+  <h3>Resume</h3>
+
+  <a href="https://drive.google.com/file/d/11P6rnPtIQ_4RHgpoq8iUYdcMVoA3vI_M/view?usp=sharing"
+     target="_blank"
+     class="resume-btn view">
+    View Resume
+  </a>
+
+  <a href="https://drive.google.com/uc?export=download&id=11P6rnPtIQ_4RHgpoq8iUYdcMVoA3vI_M"
+     class="resume-btn download">
+    Download Resume
+  </a>
+</div>
+
+  </section>
+  </main>
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/GLTFLoader.js"></script>
+
+<script src="script.js"></script>
+<script src="ripple.js"></script>
+
+<!-- dat.GUI must load after scene scripts but before gui.js -->
+<script src="https://cdn.jsdelivr.net/npm/dat.gui/build/dat.gui.min.js"></script>
+<script src="gui.js"></script>
+<script>
+  const profileImage = document.getElementById('profileImage');
+  const placeholder = document.getElementById('uploadPlaceholder');
+
+  if (profileImage && profileImage.src && profileImage.src.trim() !== "") {
+    placeholder.style.display = "none";
+  }
+</script>
+<script>
+  const track = document.getElementById('modelingTrack');
+  const cards = Array.from(track.querySelectorAll('.model-card'));
+
+  const btnPrev = document.querySelector('.modeling-arrow.arrow-prev');
+  const btnNext = document.querySelector('.modeling-arrow.arrow-next');
+
+  let currentIndex = 0;
+
+  function scrollToCard(index) {
+    if (!cards[index]) return;
+    cards[index].scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center'
+    });
+  }
+
+  function updateButtons() {
+    btnPrev.disabled = (currentIndex === 0);
+    btnNext.disabled = (currentIndex === cards.length - 1);
+  }
+
+  btnNext.addEventListener('click', () => {
+    if (currentIndex < cards.length - 1) {
+      currentIndex++;
+      scrollToCard(currentIndex);
+      updateButtons();
+    }
+  });
+
+  btnPrev.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      scrollToCard(currentIndex);
+      updateButtons();
+    }
+  });
+
+  updateButtons();
+</script>
+</body>
+</html>
